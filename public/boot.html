@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicializador</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+        }
+        .splash {
+            text-align: center;
+            opacity: 1;
+            animation: fadeOut 3s forwards;
+        }
+        svg {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 20px;
+        }
+        @keyframes fadeOut {
+            0% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="splash">
+        <svg viewBox="0 0 100 100" fill="white" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="40" stroke="white" stroke-width="5" fill="none"/>
+            <line x1="30" y1="50" x2="70" y2="50" stroke="white" stroke-width="5" />
+            <line x1="50" y1="30" x2="50" y2="70" stroke="white" stroke-width="5" />
+        </svg>
+        <h1>NoOseb</h1>
+    </div>
+    
+    <script>
+        setTimeout(() => {
+            window.location.href = "/views/menu.html";
+        },
+        Math.floor(Math.random() * (5000 - 3000 + 1)) + 3000);
+    </script>
+</body>
+</html>

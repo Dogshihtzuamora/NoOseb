@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NoOseb File Manager</title>
+    <link rel="stylesheet" href="/src/ui/styles/menu.css">
+</head>
+<body>
+    <div id="desktop" oncontextmenu="showDesktopContextMenu(event)"></div>
+    <div id="contextMenu" class="context-menu">
+        <button onclick="handleCreateFolder()">Criar Pasta</button>
+        <button onclick="handleCreateFile()">Criar Arquivo</button>
+    </div>
+    <div id="inputOverlay" class="input-overlay" style="display:none;">
+        <div class="input-box">
+            <h3 id="inputTitle">Nome da Pasta</h3>
+            <input type="text" id="inputName">
+            <button onclick="confirmInput()">OK</button>
+            <button onclick="cancelInput()">Cancelar</button>
+        </div>
+    </div>
+
+    <script src="/src/ui/components/js/menu.js"></script>
+</body>
+</html>
