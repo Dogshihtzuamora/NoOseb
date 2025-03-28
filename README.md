@@ -18,5 +18,5 @@ NoOseb-1\
 ├── public/                  # ativos estáticos da interface
 |    └── boot.html           # inicializador do sistema operacional
 ├── README.md                # Documentação do projeto
-└── index.js                # ponto de entrada servidor do projeto
+└── run.js                # ponto de entrada servidor do projeto
 ```
