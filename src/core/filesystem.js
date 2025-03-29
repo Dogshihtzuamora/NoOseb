@@ -1,7 +1,7 @@
 const fs = require('fs').promises;
 const path = require('path');
 
-const HOME_DIR = path.join(process.cwd(), 'NoOseb_Home');
+const HOME_DIR = path.join(process.cwd(), 'NoOseb');
 const DOCUMENTS_DIR = path.join(HOME_DIR, 'documents');
 
 async function ensureDirectoryExists(dirPath) {

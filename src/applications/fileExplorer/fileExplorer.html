@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciador de Arquivos</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #C0C0C0;
+        }
+
+        .file-explorer {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            border: 2px solid #808080;
+            box-shadow: 3px 3px 10px rgba(0,0,0,0.3);
+        }
+
+        .navigation-bar {
+            padding: 10px;
+            background-color: #000080;
+            color: white;
+            border-bottom: 2px solid #808080;
+            display: flex;
+            align-items: center;
+        }
+
+        .navigation-bar button {
+            background-color: #C0C0C0;
+            border: 2px solid #808080;
+            padding: 2px 8px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        .path-display {
+            flex-grow: 1;
+            padding: 5px 10px;
+            background: white;
+            border: 2px solid #808080;
+            border-radius: 0;
+            color: black;
+        }
+
+        .content-area {
+            flex-grow: 1;
+            padding: 20px;
+            overflow: auto;
+            background-color: white;
+        }
+
+        .files-grid {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            gap: 5px;
+        }
+
+        .file-item {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 3px;
+            width: 100%;
+        }
+
+        .file-item:hover {
+            background-color: rgba(0,0,0,0.1);
+        }
+
+        .file-icon {
+            font-size: 24px;
+            margin-right: 10px;
+            color: #000080;
+        }
+
+        .file-name {
+            word-break: break-word;
+            font-size: 14px;
+            color: black;
+        }
+        
+        .file-details {
+            font-size: 12px;
+            background-color: rgba(0,0,0,0.5);
+            color: white;
+            padding: 2px;
+            border-radius: 3px;
+        }
+
+        .context-menu {
+            display: none;
+            position: absolute;
+            background: #C0C0C0;
+            border: 2px solid #808080;
+            box-shadow: 3px 3px 10px rgba(0,0,0,0.3);
+            padding: 2px;
+        }
+
+        .context-menu button {
+            display: block;
+            width: 100%;
+            padding: 8px 20px;
+            border: none;
+            background: none;
+            text-align: left;
+            cursor: pointer;
+            color: black;
+        }
+
+        .context-menu button:hover {
+            background-color: #000080;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="file-explorer">
+        <div class="navigation-bar">
+            <button onclick="navigateBack()">←</button>
+            <div class="path-display" id="currentPath">/</div>
+        </div>
+        <div class="content-area">
+            <div class="files-grid" id="filesContainer" oncontextmenu="showContextMenu(event)">
+                <!-- Files and folders will be dynamically added here -->
+            </div>
+        </div>
+    </div>
+
+    <div class="context-menu" id="contextMenu">
+        <button onclick="createFolder()">Nova Pasta</button>
+        <button onclick="createFile()">Novo Arquivo</button>
+        <button onclick="renameItem()">Renomear</button>
+        <button onclick="deleteItem()">Excluir</button>
+    </div>
+
+    <script>
+        let currentPath = '/';
+        let selectedItem = null;
+
+        function showContextMenu(event) {
+            event.preventDefault();
+            const contextMenu = document.getElementById('contextMenu');
+            contextMenu.style.display = 'block';
+            contextMenu.style.left = event.pageX + 'px';
+            contextMenu.style.top = event.pageY + 'px';
+        }
+
+        document.addEventListener('click', function(event) {
+            const contextMenu = document.getElementById('contextMenu');
+            if (!event.target.closest('.context-menu')) {
+                contextMenu.style.display = 'none';
+            }
+        });
+
+        function navigateBack() {
+            if (currentPath !== '/') {
+                currentPath = currentPath.split('/').slice(0, -2).join('/') + '/';
+                updateFileList();
+            }
+        }
+
+        function updatePath() {
+            document.getElementById('currentPath').textContent = currentPath;
+        }
+
+        function createFolder() {
+            const name = prompt('Nome da nova pasta:');
+            if (name) {
+                // Implementar criação de pasta
+                console.log('Criar pasta:', name);
+            }
+        }
+
+        function createFile() {
+            const name = prompt('Nome do novo arquivo:');
+            if (name) {
+                // Implementar criação de arquivo
+                console.log('Criar arquivo:', name);
+            }
+        }
+
+        function renameItem() {
+            if (selectedItem) {
+                const newName = prompt('Novo nome:', selectedItem.name);
+                if (newName) {
+                    // Implementar renomeação
+                    console.log('Renomear:', selectedItem.name, 'para', newName);
+                }
+            }
+        }
+
+        function deleteItem() {
+            if (selectedItem && confirm(`Deseja excluir ${selectedItem.name}?`)) {
+                // Implementar exclusão
+                console.log('Excluir:', selectedItem.name);
+            }
+        }
+
+        function updateFileList() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const pathParam = urlParams.get('path');
+            
+            if (pathParam) {
+                currentPath = decodeURIComponent(pathParam) + '/';
+            }
+            
+            updatePath();
+            
+            fetch(`/list-folders?dir=${encodeURIComponent(currentPath)}`)
+                .then(response => response.json())
+                .then(items => {
+                    const filesContainer = document.getElementById('filesContainer');
+                    filesContainer.innerHTML = '';
+                    
+                    // Adicionar pasta para voltar (exceto na raiz)
+                    if (currentPath !== '/') {
+                        const backItem = document.createElement('div');
+                        backItem.className = 'file-item';
+                        backItem.innerHTML = `
+                            <div class="file-icon">⬆️</div>
+                            <div class="file-name">Voltar</div>
+                        `;
+                        backItem.onclick = () => {
+                            navigateBack();
+                        };
+                        filesContainer.appendChild(backItem);
+                    }
+                    
+                    // Adicionar arquivos e pastas
+                    items.forEach(item => {
+                        const fileItem = document.createElement('div');
+                        fileItem.className = 'file-item';
+                        fileItem.innerHTML = `
+                            <div class="file-icon">${item.type}</div>
+                            <div class="file-name">${item.name}</div>
+                        `;
+                        fileItem.onclick = () => {
+                            selectedItem = item;
+                        };
+                        fileItem.ondblclick = () => {
+                            if (item.type === '📁') {
+                                // Corrigindo o caminho para navegação em subpastas
+                                currentPath = '/' + item.path + '/';
+                                updateFileList();
+                            }
+                        };
+                        filesContainer.appendChild(fileItem);
+                    });
+                })
+                .catch(error => {
+                    console.error('Erro ao carregar arquivos:', error);
+                    const filesContainer = document.getElementById('filesContainer');
+                    filesContainer.innerHTML = '<div class="error-message">Erro ao carregar arquivos</div>';
+                });
+        }
+
+        // Inicialização
+        updateFileList();
+    </script>
+</body>
+</html>

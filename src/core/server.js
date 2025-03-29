@@ -25,7 +25,7 @@ const server = http.createServer(async (req, res) => {
                 res.end(content);
             } else if (parsedUrl.pathname === '/list-folders') {
                 await handleListFolders(req, res, parsedUrl.query.dir);
-            } else if (parsedUrl.pathname.startsWith('/src/ui/')) { // Configuração para servir arquivos da pasta src/ui/
+            } else if (parsedUrl.pathname.startsWith('/src/')) { // Configuração para servir arquivos da pasta src/
                 const filePath = path.join(__dirname, '../..', parsedUrl.pathname);
                 try {
                     const content = await fs.readFile(filePath);
@@ -34,6 +34,8 @@ const server = http.createServer(async (req, res) => {
                         contentType = 'text/css';
                     } else if (parsedUrl.pathname.endsWith('.js')) {
                         contentType = 'application/javascript';
+                    } else if (parsedUrl.pathname.endsWith('.html')) {
+                        contentType = 'text/html';
                     }
                     res.writeHead(200, {'Content-Type': contentType});
                     res.end(content);
