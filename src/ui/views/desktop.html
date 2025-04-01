@@ -1,32 +1,78 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NoOseb File Manager</title>
-    <link rel="stylesheet" href="/src/ui/styles/desktop.css">
+    <title>NoOseb System</title>
+    <link rel="stylesheet" href="../styles/desktop.css">
 </head>
 <body>
-    <div id="desktop" oncontextmenu="showDesktopContextMenu(event)"></div>
-    <div id="taskbar">
-        <div class="taskbar-icon" ondblclick="openFileExplorer()">
-            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBmaWxsPSIjZmZmZmZmIiBkPSJNMjAgNGgtMTZjLTEuMSAwLTIgLjktMiAydjEyYzAgMS4xLjkgMiAyIDJoMTZjMS4xIDAgMi0uOSAyLTJ2LTEyYzAtMS4xLS45LTItMi0yem0wIDJ2MmgtMTZ2LTJoMTZ6bS0xNiAxMnYtOGgxNnY4aC0xNnoiLz48L3N2Zz4=" alt="File Explorer">
-            <span>File Explorer</span>
-        </div>
-    </div>
-    <div id="contextMenu" class="context-menu">
-        <button onclick="handleCreateFolder()">Criar Pasta</button>
-        <button onclick="handleCreateFile()">Criar Arquivo</button>
-    </div>
-    <div id="inputOverlay" class="input-overlay" style="display:none;">
-        <div class="input-box">
-            <h3 id="inputTitle">Nome da Pasta</h3>
-            <input type="text" id="inputName">
-            <button onclick="confirmInput()">OK</button>
-            <button onclick="cancelInput()">Cancelar</button>
+    <div id="desktop">
+        <div class="icons">
+            <div class="icon" data-app="myComputer">
+                <img src="https://win98icons.alexmeub.com/icons/png/computer-2.png" class="icon-img" alt="My Computer">
+                <span>Meu Computador</span>
+            </div>
+            <div class="icon" data-app="fileExplorer">
+                <img src="https://win98icons.alexmeub.com/icons/png/search_directory-4.png" class="icon-img" alt="File Explorer">
+                <span>Explorador</span>
+            </div>
+            <div class="icon" data-app="terminal">
+                <img src="https://win98icons.alexmeub.com/icons/png/console_prompt-0.png" class="icon-img" alt="Terminal">
+                <span>Terminal</span>
+            </div>
+            <div class="icon" data-app="notepad">
+                <img src="https://win98icons.alexmeub.com/icons/png/notepad-1.png" class="icon-img" alt="Notepad">
+                <span>Bloco de Notas</span>
+            </div>
         </div>
     </div>
 
-    <script src="/src/ui/components/js/desktop.js"></script>
+    <div id="taskbar">
+        <div id="start-button">
+            <img src="../components/img/logo.png" alt="Start">
+            Iniciar
+        </div>
+        <div class="taskbar-divider"></div>
+        <div id="taskbar-items">
+            <!-- Taskbar items will be added here dynamically -->
+        </div>
+        <div style="flex-grow: 1;"></div>
+        <div id="clock">12:00</div>
+    </div>
+
+    <div id="start-menu">
+        <div class="start-menu-header">NoOseb</div>
+        <div class="start-menu-items">
+            <div class="start-menu-item" data-app="fileExplorer">
+                <img src="https://win98icons.alexmeub.com/icons/png/search_directory-4.png" alt="File Explorer">
+                Explorador de Arquivos
+            </div>
+            <div class="start-menu-item" data-app="terminal">
+                <img src="https://win98icons.alexmeub.com/icons/png/console_prompt-0.png" alt="Terminal">
+                Terminal
+            </div>
+            <div class="start-menu-item" data-app="notepad">
+                <img src="https://win98icons.alexmeub.com/icons/png/notepad-1.png" alt="Notepad">
+                Bloco de Notas
+            </div>
+            <div class="start-menu-separator"></div>
+            <div class="start-menu-item" data-action="shutdown">
+                <img src="https://win98icons.alexmeub.com/icons/png/shut_down_cool-5.png" alt="Shutdown">
+                Desligar...
+            </div>
+        </div>
+    </div>
+
+    <div id="context-menu">
+        <div class="context-menu-item" data-action="new-folder">Nova Pasta</div>
+        <div class="context-menu-item" data-action="new-file">Novo Arquivo</div>
+        <div class="context-menu-separator"></div>
+        <div class="context-menu-item" data-action="refresh">Atualizar</div>
+        <div class="context-menu-separator"></div>
+        <div class="context-menu-item" data-action="properties">Propriedades</div>
+    </div>
+
+    <script src="../components/js/desktop.js"></script>
 </body>
 </html>

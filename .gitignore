@@ -1,0 +1,50 @@
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Logs
+logs/
+*.log
+*.log.*
+
+# Diretórios do sistema
+.DS_Store
+Thumbs.db
+
+# Pastas de build
+dist/
+build/
+.cache/
+.out/
+
+# Ambientes
+.env
+.env.local
+.env.*.local
+
+# IDEs e editores
+.vscode/
+.idea/
+*.iml
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Deploy e arquivos temporários
+tmp/
+*.bak
+*.swp
+*.swo
+
+# Arquivos do sistema operacional
+*.pid
+*.seed
+*.cover
